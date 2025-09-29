@@ -1,14 +1,16 @@
-import { Sequelize } from '@sequelize/core';
-import { MySqlDialect } from '@sequelize/mysql';
 import dotenv from 'dotenv';
+import {DataSource} from "typeorm";
+import {Usuario} from "../entities/Usuario";
 
 dotenv.config();
 
-const connection = new Sequelize({
-    dialect: MySqlDialect,
+export const connection = new DataSource({
+    type: "mysql",
     database: process.env.DB_NAME,
-    user: process.env.DB_USER,
+    username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT as unknown as number,
+    port: 3306,
+    entities: [Usuario],
+    synchronize: true
 });

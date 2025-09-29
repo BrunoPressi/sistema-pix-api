@@ -9,39 +9,46 @@ export class Usuario {
     @Column({
         nullable: false,
         unique: true,
-        length: 14
+        length: 14,
+        type: "varchar"
     })
     cpf_cnpj: string;
 
     @Column({
         nullable: false,
-        length: 90
+        length: 90,
+        type: "varchar"
     })
     nome_completo: string;
 
     @Column({
         nullable: false,
+        type: "integer"
     })
     numero_conta: number;
 
     @Column({
         nullable: false,
-        length: 9
+        length: 9,
+        type: "varchar"
     })
     telefone: string;
 
     @Column({
-        nullable: false
+        nullable: false,
+        type: "varchar"
     })
     rua: string;
 
     @Column({
-        nullable: false
+        nullable: false,
+        type: "varchar"
     })
     bairro: string;
 
     @Column({
-        nullable: false
+        nullable: false,
+        type: "varchar"
     })
     cidade: string;
 
