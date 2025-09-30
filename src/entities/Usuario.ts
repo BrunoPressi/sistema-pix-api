@@ -16,6 +16,12 @@ export class Usuario {
 
     @Column({
         nullable: false,
+        type: "varchar"
+    })
+    senha: string;
+
+    @Column({
+        nullable: false,
         length: 90,
         type: "varchar"
     })
@@ -52,10 +58,11 @@ export class Usuario {
     })
     cidade: string;
 
-    constructor(id: number, nome_completo: string, cpf_cnpj: string, numero_conta: number, telefone: string, rua: string, bairro:string, cidade:string) {
+    constructor(id: number, nome_completo: string, cpf_cnpj: string, senha: string, numero_conta: number, telefone: string, rua: string, bairro:string, cidade:string) {
         this.id = id;
         this.nome_completo = nome_completo;
         this.cpf_cnpj = cpf_cnpj;
+        this.senha = senha
         this.numero_conta = numero_conta;
         this.telefone = telefone;
         this.rua = rua;

@@ -4,7 +4,7 @@ import {Usuario} from "../entities/Usuario";
 
 dotenv.config();
 
-export const connection = new DataSource({
+export const AppDataSource = new DataSource({
     type: "mysql",
     database: process.env.DB_NAME,
     username: process.env.DB_USER,

@@ -1,18 +1,17 @@
 import "reflect-metadata";
+import {AppDataSource} from './database/AppDataSource';
 import express from 'express';
-import {connection} from './database/AppDataSource';
-import dotenv from "dotenv";
+import routes from "./routes";
 
 const app = express();
 const port = 5001;
+app.use(express.json());
+app.use(routes);
 
-dotenv.config();
-
-app.listen(port, async () => {
-    try {
-        await connection.initialize()
-        console.log("Data Source has been initialized!")
-    } catch (error) {
-        console.error("Error during Data Source initialization", error)
-    }
-});
+AppDataSource.initialize()
+    .then(() => {
+        app.listen(port, () => {
+            console.log(`API is running on http://localhost:${port}`);
+        });
+    })
+    .catch((error) => console.log("Error during Data Source initialization", error));
