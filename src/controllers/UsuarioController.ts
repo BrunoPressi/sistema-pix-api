@@ -6,6 +6,7 @@ export class UsuarioController {
     static async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const usuarios = await UsuarioService.buscarTodosUsuarios();
+            res.type('application/json')
             return res.json({
                 Usuarios: usuarios
             });
@@ -20,6 +21,7 @@ export class UsuarioController {
     static async create(req: Request, res: Response, next: NextFunction) {
         try {
             const usuario = await UsuarioService.criarNovoUsuario(req.body);
+            res.type('application/json')
             res.statusCode=201;
             res.statusMessage="Created";
             return res.json({
@@ -36,6 +38,7 @@ export class UsuarioController {
     static async findById(req: Request, res: Response, next: NextFunction) {
         try {
             const usuario = await UsuarioService.buscarUsuarioId(req.params['id'] as unknown as number);
+            res.type('application/json')
             res.statusCode=200;
             res.statusMessage='OK';
             res.json({
@@ -50,6 +53,7 @@ export class UsuarioController {
     static async patch(req: Request, res:Response, next: NextFunction) {
         try {
             const usuario = await UsuarioService.atualizarUsuario(req.body, req.params['id'] as unknown as number);
+            res.type('application/json')
             res.statusCode=200;
             res.statusMessage="OK";
             res.json({

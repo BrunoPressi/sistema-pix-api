@@ -3,7 +3,7 @@ import {AppDataSource} from './database/AppDataSource';
 import express from 'express';
 import routes from "./routes";
 
-const app = express();
+export const app = express();
 const port = 5001;
 app.use(express.json());
 app.use(routes);

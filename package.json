@@ -6,7 +6,7 @@
   "main": "src/app.ts",
   "scripts": {
     "dev": "tsx watch src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test jest --runInBand"
   },
   "author": "Bruno Pressi",
   "license": "ISC",
@@ -20,11 +20,16 @@
     "express-validator": "^7.2.1",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
+    "supertest": "^7.1.4",
     "typeorm": "^0.3.27"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.5.2",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.4",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2"

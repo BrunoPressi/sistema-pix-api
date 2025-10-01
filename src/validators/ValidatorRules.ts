@@ -20,15 +20,15 @@ export const validatorRulesNovoUsuario = [
     check('senha', 'Sua senha deve ter mais de 5 caracteres.').isLength({min: 5}),
     check('nome_completo', 'Seu nome deve ter mais de 3 caracteres.').isLength({min: 3}),
     check('telefone', 'Insira um telefone válido (somente números - 9 caracteres).').isLength({min: 9, max: 9}),
-    check('rua', 'Rua não pode ser vázio.').notEmpty(),
-    check('bairro', 'Campo rua não pode ser vázio.').notEmpty(),
+    check('rua', 'Campo rua não pode ser vázio.').notEmpty(),
+    check('bairro', 'Campo bairro não pode ser vázio.').notEmpty(),
     check('cidade', 'Campo cidade não pode ser vázio.').notEmpty(),
 ]
 
 export const validatorRulesAtualizarUsuario = [
     check('senha', 'Sua senha deve ter mais de 5 caracteres.').isLength({min: 5}),
     check('telefone', 'Insira um telefone válido (somente números - 9 caracteres).').isLength({min: 9, max: 9}),
-    check('rua', 'Rua não pode ser vázio.').notEmpty(),
-    check('bairro', 'Campo rua não pode ser vázio.').notEmpty(),
+    check('rua', 'Campo rua não pode ser vázio.').notEmpty(),
+    check('bairro', 'Campo bairro não pode ser vázio.').notEmpty(),
     check('cidade', 'Campo cidade não pode ser vázio.').notEmpty(),
 ]
