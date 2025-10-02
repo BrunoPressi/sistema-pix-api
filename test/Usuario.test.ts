@@ -4,6 +4,8 @@ import request from 'supertest';
 import { Usuario } from "../src/entities/Usuario";
 
 let token: string;
+let tokenExpirado: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwibm9tZUNvbXBsZXRvIjoiSm9obiBEb2UiLCJudW1lcm9Db250YSI6NDUyNSwiaWF0IjoxNzU5NDI5MDI4LCJleHAiOjE3NTk0MjkzMjh9.2PTJ7LmA5GDqynuRvbMyL_-Ef1U-MwdR0Xwgo02N02E';
+let tokenBlacklist: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwibm9tZUNvbXBsZXRvIjoiSm9obiBEb2UiLCJudW1lcm9Db250YSI6NDUyNSwiaWF0IjoxNzU5NDMwNzA2LCJleHAiOjE3NTk0MzEyMDZ9.p2rlTmPggGLoP8Ji02lmrBM26pcyccLSclDTcUyfowo';
 
 beforeAll(async () => {
     await AppDataSource.initialize();
@@ -38,12 +40,39 @@ afterAll(async () => {
 
 describe('GET v1/usuarios', function () {
    it('Buscar todos usuários', async function() {
-     const res = await request(app)
+     await request(app)
          .get('/v1/usuarios')
          .set('Authorization', 'Bearer ' + token)
          .expect('Content-Type', /json/)
          .expect(200);
    });
+});
+
+describe('GET v1/usuarios', function () {
+    it('Requisição com token expirado', async function() {
+        const res = await request(app)
+            .get('/v1/usuarios')
+            .set('Authorization', 'Bearer ' + tokenExpirado)
+            .expect('Content-Type', /json/)
+            .expect(401);
+
+        expect(res.body.errorMessage).toBe('Token expirado');
+        expect(res.body.statusCode).toBe(401);
+        expect(res.body.statusMessage).toBe('Unauthorized');
+    });
+});
+
+describe('GET v1/usuarios', function () {
+    it('Requisição sem token', async function() {
+        const res = await request(app)
+            .get('/v1/usuarios')
+            .expect('Content-Type', /json/)
+            .expect(401);
+
+        expect(res.body.errorMessage).toBe('Insira um Token JWT.');
+        expect(res.body.statusCode).toBe(401);
+        expect(res.body.statusMessage).toBe('Unauthorized');
+    });
 });
 
 describe('GET /v1/usuarios/id', function() {
