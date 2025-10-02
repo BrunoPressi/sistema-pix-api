@@ -3,8 +3,32 @@ import { app } from '../src/app';
 import request from 'supertest';
 import { Usuario } from "../src/entities/Usuario";
 
+let token: string;
+
 beforeAll(async () => {
     await AppDataSource.initialize();
+
+    await request(app)
+        .post('/v1/usuarios')
+        .send({
+            id: 999,
+            cpf_cnpj: "047.930.260-01",
+            senha: 'teste123',
+            nome_completo: "nome_teste",
+            numero_conta: 1234,
+            telefone: "996322831",
+            rua: "rua_teste",
+            bairro: "bairro_teste",
+            cidade: "cidade_teste"
+        })
+
+    const res = await request(app)
+        .post('/v1/auth')
+        .send({
+            cpf_cnpj: '047.930.260-01',
+            senha: 'teste123'
+        })
+    token = res.body.token;
 });
 
 afterAll(async () => {
@@ -12,24 +36,11 @@ afterAll(async () => {
     await AppDataSource.destroy();
 });
 
-beforeEach(async () => {
-    await AppDataSource.getRepository(Usuario).save({
-        id: 999,
-        cpf_cnpj: "047.930.260-01",
-        senha: "teste123",
-        nome_completo: "nome_teste",
-        numero_conta: 1234,
-        telefone: "996322831",
-        rua: "rua_teste",
-        bairro: "bairro_teste",
-        cidade: "cidade_teste"
-    });
-});
-
 describe('GET v1/usuarios', function () {
    it('Buscar todos usuários', async function() {
      const res = await request(app)
          .get('/v1/usuarios')
+         .set('Authorization', 'Bearer ' + token)
          .expect('Content-Type', /json/)
          .expect(200);
    });
@@ -39,6 +50,7 @@ describe('GET /v1/usuarios/id', function() {
     it('Buscar usuário com id existente', async function() {
         const res = await request(app)
             .get('/v1/usuarios/999')
+            .set('Authorization', 'Bearer ' + token)
             .expect('Content-Type', /json/)
             .expect(200);
 
@@ -53,6 +65,7 @@ describe('GET /v1/usuarios/id', function() {
     it('Buscar usuário com id inexistente', async function() {
         const res = await request(app)
             .get('/v1/usuarios/0')
+            .set('Authorization', 'Bearer ' + token)
             .expect('Content-Type', /json/)
             .expect(404);
 
@@ -85,7 +98,6 @@ describe('POST /v1/usuarios', function () {
       expect(res.body.Usuario.cpf_cnpj).toBe('603.866.600-18');
       expect(res.body.Usuario.telefone).toBe('999726854');
        expect(res.body.Usuario.numero_conta).toBe(4525);
-       expect(res.body.Usuario.senha).toBe('John123');
       expect(res.body.Usuario.rua).toBe('Quadra 58');
       expect(res.body.Usuario.bairro).toBe('Santo Antônio');
       expect(res.body.Usuario.cidade).toBe('Teresina');
@@ -123,9 +135,13 @@ describe('POST /v1/usuarios', function () {
 
 describe('DELETE /v1/usuarios/id', function () {
    it('Deletar usuário existente', async function() {
-      const res = await request(app)
-      .delete('/v1/usuarios/999')
-      .expect(204)
+       await request(app)
+          .delete('/v1/usuarios/99')
+           // Deletar o usuário 99 que está sendo criado no teste POST /v1/Usuario - Adicionar novo usuário com dados válidos,
+           // se tentar deletar o usuário criado no beforeAll o teste GET /v1/usuarios/id - Buscar usuário com id existente,
+           // não passará!
+          .set('Authorization', 'Bearer ' + token)
+          .expect(204)
    });
 });
 
@@ -133,6 +149,7 @@ describe('DELETE /v1/usuarios/id', function() {
     it('Deletar usuário inexistente', async function() {
         const res = await request(app)
             .delete('/v1/usuarios/0')
+            .set('Authorization', 'Bearer ' + token)
             .expect('Content-Type', /json/)
             .expect(404);
 
@@ -147,6 +164,7 @@ describe('PATCH /v1/usuarios/id', function () {
     it('Atualizar usuário existente', async function() {
         const res = await request(app)
             .patch('/v1/usuarios/999')
+            .set('Authorization', 'Bearer ' + token)
             .send({
                 telefone: "996322831",
                 senha: "JOHN4321",
@@ -171,6 +189,7 @@ describe('PATCH /v1/usuarios/id', function() {
     it('Atualizar usuário inexistente', async function() {
         const res = await request(app)
             .patch('/v1/usuarios/0')
+            .set('Authorization', 'Bearer ' + token)
             .send({
                 telefone: "996322831",
                 senha: "JOHN4321",
