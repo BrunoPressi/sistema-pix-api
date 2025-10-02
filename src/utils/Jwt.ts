@@ -23,33 +23,45 @@ export function generateJwt(id: number, nomeCompleto: string, numeroConta: numbe
 }
 
 export function verifyJwt(req: Request, res: Response, next: NextFunction) {
-    let token = req.headers['authorization'];
+    try {
+        let token = req.headers['authorization'];
 
-    if (!token) {
-        const error: any  = new Error('Insira um Token JWT.');
-        error.statusCode=401;
-        error.statusMessage='Unauthorized'
-        throw error;
+        if (!token) {
+            const error: any  = new Error('Insira um Token JWT.');
+            error.statusCode=401;
+            error.statusMessage='Unauthorized'
+            throw error;
+        }
+
+        token = req.headers['authorization']?.replace("Bearer ", "");
+
+        if (blacklist[token!]) {
+            const error: any  = new Error('Token Inválido.');
+            error.statusCode=403;
+            error.statusMessage='Forbidden'
+            throw error;
+        }
+
+        const decoded = jwt.verify(token!, process.env.JWT_SECRET!);
+
+        if (!decoded) {
+            const error: any  = new Error('Token Inválido.');
+            error.statusCode=403;
+            error.statusMessage='Forbidden'
+            throw error;
+        }
+
+        res.locals.token = decoded;
+        return next();
+    }
+    catch (err:any) {
+        if (err instanceof jwt.TokenExpiredError) {
+            const error:any = new Error('Token expirado');
+            error.statusMessage='Unauthorized';
+            error.statusCode=401;
+            throw error;
+        }
+        throw err;
     }
 
-    token = req.headers['authorization']?.replace("Bearer ", "");
-
-    if (blacklist[token!]) {
-        const error: any  = new Error('Token Inválido.');
-        error.statusCode=403;
-        error.statusMessage='Forbidden'
-        throw error;
-    }
-
-    const decoded = jwt.verify(token!, process.env.JWT_SECRET!);
-
-    if (!decoded) {
-        const error: any  = new Error('Token Inválido.');
-        error.statusCode=403;
-        error.statusMessage='Forbidden'
-        throw error;
-    }
-
-    res.locals.token = decoded;
-    return next();
 }
