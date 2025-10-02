@@ -1,10 +1,11 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Chave} from "./Chave";
 
 @Entity()
 export class Usuario {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column({
         nullable: false,
@@ -12,62 +13,54 @@ export class Usuario {
         length: 14,
         type: "varchar"
     })
-    cpf_cnpj: string;
+    cpf_cnpj!: string;
 
     @Column({
         nullable: false,
         type: "varchar"
     })
-    senha: string;
+    senha!: string;
 
     @Column({
         nullable: false,
         length: 90,
         type: "varchar"
     })
-    nome_completo: string;
+    nome_completo!: string;
 
     @Column({
         nullable: false,
         type: "integer",
         unique: true
     })
-    numero_conta: number;
+    numero_conta!: number;
 
     @Column({
         nullable: false,
         length: 9,
         type: "varchar"
     })
-    telefone: string;
+    telefone!: string;
 
     @Column({
         nullable: false,
         type: "varchar"
     })
-    rua: string;
+    rua!: string;
 
     @Column({
         nullable: false,
         type: "varchar"
     })
-    bairro: string;
+    bairro!: string;
 
     @Column({
         nullable: false,
         type: "varchar"
     })
-    cidade: string;
+    cidade!: string;
 
-    constructor(id: number, nome_completo: string, cpf_cnpj: string, senha: string, numero_conta: number, telefone: string, rua: string, bairro:string, cidade:string) {
-        this.id = id;
-        this.nome_completo = nome_completo;
-        this.cpf_cnpj = cpf_cnpj;
-        this.senha = senha
-        this.numero_conta = numero_conta;
-        this.telefone = telefone;
-        this.rua = rua;
-        this.bairro = bairro;
-        this.cidade = cidade;
-    }
+    @OneToMany(() => Chave, (chave) => chave.usuario)
+    chaves!: Chave[];
+
 }
