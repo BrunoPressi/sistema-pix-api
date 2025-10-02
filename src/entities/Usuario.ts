@@ -29,7 +29,8 @@ export class Usuario {
 
     @Column({
         nullable: false,
-        type: "integer"
+        type: "integer",
+        unique: true
     })
     numero_conta: number;
 

@@ -1,5 +1,6 @@
 import {AppDataSource} from "../database/AppDataSource";
 import {Usuario} from "../entities/Usuario";
+import bcrypt from 'bcrypt';
 
 const UsuarioRepository = AppDataSource.getRepository(Usuario);
 
@@ -10,6 +11,8 @@ export class UsuarioService {
 
     static async criarNovoUsuario(usuario: Usuario) {
         try {
+            const senhaHash = await bcrypt.hash(usuario.senha, 10);
+            usuario.senha = senhaHash;
             return await UsuarioRepository.save(usuario);
         }
         catch (err: any) {
@@ -52,5 +55,20 @@ export class UsuarioService {
     static async deletarUsuario(id: number) {
         await this.buscarUsuarioId(id);
         await UsuarioRepository.delete(id);
+    }
+
+    static async buscarUsuarioPorCpfCnpj(cpf_cnpj: string) {
+        const usuario = await UsuarioRepository.findOneBy({
+            cpf_cnpj: cpf_cnpj
+        })
+
+        if (usuario != null) {
+            return usuario;
+        } else {
+            const error:any = new Error(`Usuário |${cpf_cnpj}| não encontrado.`);
+            error.statusCode=404;
+            error.statusMessage="Not Found";
+            throw error;
+        }
     }
 }

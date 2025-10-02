@@ -29,8 +29,6 @@ export class UsuarioController {
             });
         }
         catch (err: any) {
-            res.statusCode=err.statusCode;
-            res.statusMessage=err.statusMessage;
             next(err);
         }
     }
