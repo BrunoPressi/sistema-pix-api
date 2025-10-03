@@ -10,5 +10,7 @@ UsuarioRoutes.post("/", validatorRulesNovoUsuario, checkValidationResult, Usuari
 UsuarioRoutes.get("/:id", verifyJwt, UsuarioController.findById);
 UsuarioRoutes.patch("/:id", verifyJwt, validatorRulesAtualizarUsuario, checkValidationResult, UsuarioController.patch);
 UsuarioRoutes.delete("/:id", verifyJwt, UsuarioController.delete)
+UsuarioRoutes.get("/:id/chaves", verifyJwt, UsuarioController.findChaves)
+
 
 export default UsuarioRoutes;

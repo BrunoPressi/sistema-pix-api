@@ -1,6 +1,5 @@
 import {UsuarioService} from "../services/UsuarioService";
 import {NextFunction, Request, Response} from "express";
-import {Usuario} from "../entities/Usuario";
 
 export class UsuarioController {
     static async findAll(req: Request, res: Response, next: NextFunction) {
@@ -36,6 +35,18 @@ export class UsuarioController {
     static async findById(req: Request, res: Response, next: NextFunction) {
         try {
             const usuario = await UsuarioService.buscarUsuarioId(req.params['id'] as unknown as number);
+
+            const token = res.locals.token;
+            const tokenID: number  = token.id;
+            const userID: number = usuario.id;
+
+            if (tokenID != userID) { // Usuario só pode buscar as informações dele mesmo.
+                const error: any = new Error('Voce não tem permissão para acessar esse recurso.');
+                error.statusCode=401;
+                error.statusMessage='Unauthorized';
+                throw error;
+            }
+
             res.type('application/json')
             res.statusCode=200;
             res.statusMessage='OK';
@@ -50,7 +61,21 @@ export class UsuarioController {
 
     static async patch(req: Request, res:Response, next: NextFunction) {
         try {
-            const usuario = await UsuarioService.atualizarUsuario(req.body, req.params['id'] as unknown as number);
+            const usuarioVelho = await UsuarioService.buscarUsuarioId(parseInt(req.params['id']));
+            const usuarioNovo = req.body;
+
+            const token = res.locals.token;
+            const tokenID: number  = token.id;
+            const userID: number = parseInt(req.params['id']);
+
+            if (tokenID != userID) { // Usuario só pode atualizar as informações dele mesmo.
+                const error: any = new Error('Voce não tem permissão para atualizar esse recurso.');
+                error.statusCode=401;
+                error.statusMessage='Unauthorized';
+                throw error;
+            }
+
+            const usuario = await UsuarioService.atualizarUsuario(usuarioNovo, usuarioVelho);
             res.type('application/json')
             res.statusCode=200;
             res.statusMessage="OK";
@@ -65,9 +90,50 @@ export class UsuarioController {
 
     static async delete(req: Request, res: Response, next: NextFunction) {
         try {
-            await UsuarioService.deletarUsuario(req.params['id'] as unknown as number);
+            const usuario = await UsuarioService.buscarUsuarioId(parseInt(req.params['id']));
+
+            const token = res.locals.token;
+            const tokenID: number  = token.id;
+            const userID: number = parseInt(req.params['id']);
+
+            if (tokenID != userID) { // Usuario só pode deletar as informações dele mesmo.
+                const error: any = new Error('Voce não tem permissão para deletar esse recurso.');
+                error.statusCode=401;
+                error.statusMessage='Unauthorized';
+                throw error;
+            }
+
+            await UsuarioService.deletarUsuario(usuario.id);
             res.statusCode=204;
             res.json();
+        }
+        catch (err: any) {
+            next(err);
+        }
+    }
+
+    static async findChaves(req: Request, res: Response, next: NextFunction) {
+        try {
+            const user = await UsuarioService.buscarUsuarioId(req.params['id'] as unknown as number);
+
+            const token = res.locals.token;
+            const tokenID: number  = token.id;
+            const userID: number = parseInt(req.params['id']);
+
+            if (tokenID != userID) { // Usuario só pode buscar as chaves dele mesmo.
+                const error: any = new Error('Voce não tem permissão para acessar esse recurso.');
+                error.statusCode=401;
+                error.statusMessage='Unauthorized';
+                throw error;
+            }
+
+            const chaves = await UsuarioService.buscarChavesDoUsuario(user.id);
+            res.statusCode=200;
+            res.statusMessage='Success';
+            res.type('application/json');
+            res.json({
+                Chaves: chaves?.chaves
+            })
         }
         catch (err: any) {
             next(err);

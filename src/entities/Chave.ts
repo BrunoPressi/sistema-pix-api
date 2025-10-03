@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 import {TipoChave} from "./enums/TipoChave";
 import {Usuario} from "./Usuario";
 
@@ -6,6 +6,12 @@ import {Usuario} from "./Usuario";
 export class Chave{
 
     @PrimaryGeneratedColumn()
+    id?: number;
+
+    @Column({
+        type: 'varchar',
+        unique: true
+    })
     chave!: string;
 
     @Column(
@@ -16,7 +22,6 @@ export class Chave{
     )
     tipo!: TipoChave;
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.chaves)
+    @ManyToOne(() => Usuario, (usuario) => usuario.chaves, {onDelete: "CASCADE"})
     usuario!: Usuario;
-
 }

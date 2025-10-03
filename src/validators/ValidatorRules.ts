@@ -1,6 +1,7 @@
-import {check, validationResult} from "express-validator";
+import {check, param, validationResult} from "express-validator";
 import { cpf, cnpj } from "cpf-cnpj-validator";
 import {NextFunction, Request, Response} from "express";
+import {TipoChave} from "../entities/enums/TipoChave";
 
 export const checkValidationResult = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -23,7 +24,7 @@ export const validatorRulesNovoUsuario = [
     check('rua', 'Campo rua não pode ser vázio.').notEmpty(),
     check('bairro', 'Campo bairro não pode ser vázio.').notEmpty(),
     check('cidade', 'Campo cidade não pode ser vázio.').notEmpty(),
-]
+];
 
 export const validatorRulesAtualizarUsuario = [
     check('senha', 'Sua senha deve ter mais de 5 caracteres.').isLength({min: 5}),
@@ -31,4 +32,28 @@ export const validatorRulesAtualizarUsuario = [
     check('rua', 'Campo rua não pode ser vázio.').notEmpty(),
     check('bairro', 'Campo bairro não pode ser vázio.').notEmpty(),
     check('cidade', 'Campo cidade não pode ser vázio.').notEmpty(),
-]
+    param('id')
+        .isNumeric()
+        .withMessage('ID do usuário deve ser um número inteiro')
+        .notEmpty()
+        .withMessage('ID do usuário não pode estar vázio'),
+];
+
+export const validatorRulesNovaChave = [
+    param('usuarioID')
+        .isNumeric()
+        .withMessage('ID do usuário deve ser um número inteiro')
+        .notEmpty()
+        .withMessage('ID do usuário não pode estar vázio'),
+
+    check("tipo")
+        .isIn(Object.values(TipoChave))
+        .withMessage("Tipo de chave deve ser: email, telefone, cpf ou aleatoria.")
+        .notEmpty()
+        .withMessage("Campo tipo de chave não pode estar vázio."),
+
+    check("chave")
+        .notEmpty()
+        .withMessage("Campo chave não pode estar vázio;")
+
+];

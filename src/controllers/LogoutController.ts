@@ -6,8 +6,8 @@ export class LogoutController {
         try {
             const token = req.headers['authorization']!.replace("Bearer ", "");
             LogoutService.logout(token);
-            res.statusCode=200;
-            res.json({});
+            res.statusCode=204;
+            res.json();
         }
         catch (err: any) {
             next(err);

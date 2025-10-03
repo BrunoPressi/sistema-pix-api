@@ -41,19 +41,19 @@ export class UsuarioService {
         }
     }
 
-    static async atualizarUsuario(usuarioNovo: Usuario, id: number) {
-        const usuarioVelho = await this.buscarUsuarioId(id);
+    static async atualizarUsuario(usuarioNovo: Usuario, usuarioVelho: Usuario) {
         usuarioVelho.telefone = usuarioNovo.telefone;
-        usuarioVelho.senha = usuarioNovo.senha;
         usuarioVelho.rua = usuarioNovo.rua;
         usuarioVelho.bairro = usuarioNovo.bairro;
         usuarioVelho.cidade = usuarioNovo.cidade;
+
+        const senhaHash = await bcrypt.hash(usuarioNovo.senha, 10);
+        usuarioVelho.senha = senhaHash;
 
         return await UsuarioRepository.save(usuarioVelho);
     }
 
     static async deletarUsuario(id: number) {
-        await this.buscarUsuarioId(id);
         await UsuarioRepository.delete(id);
     }
 
@@ -70,5 +70,12 @@ export class UsuarioService {
             error.statusMessage="Not Found";
             throw error;
         }
+    }
+
+    static async buscarChavesDoUsuario(id: number) {
+        return await UsuarioRepository.findOne({
+            where: {id},
+            relations: ['chaves']
+        })
     }
 }
