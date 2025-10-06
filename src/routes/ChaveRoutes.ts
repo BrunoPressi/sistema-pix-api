@@ -7,5 +7,5 @@ export const ChaveRoutes = Router();
 
 ChaveRoutes.post('/:usuarioID', verifyJwt, validatorRulesNovaChave, checkValidationResult, ChaveController.create);
 ChaveRoutes.get('/', verifyJwt, ChaveController.findAll);
-ChaveRoutes.get('/:id', verifyJwt, ChaveController.findById);
+ChaveRoutes.get('/:id', ChaveController.findById);
 ChaveRoutes.delete('/:id', verifyJwt, ChaveController.deleteById);

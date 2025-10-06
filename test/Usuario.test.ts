@@ -59,9 +59,7 @@ describe('GET v1/usuarios', function () {
          .expect('Content-Type', /json/)
          .expect(200);
    });
-});
 
-describe('GET v1/usuarios', function () {
     it('Requisição com token expirado', async function() {
         const res = await request(app)
             .get('/v1/usuarios')
@@ -73,9 +71,7 @@ describe('GET v1/usuarios', function () {
         expect(res.body.statusCode).toBe(401);
         expect(res.body.statusMessage).toBe('Unauthorized');
     });
-});
 
-describe('GET v1/usuarios', function () {
     it('Requisição sem token', async function() {
         const res = await request(app)
             .get('/v1/usuarios')
@@ -101,9 +97,7 @@ describe('GET /v1/usuarios/id', function() {
         expect(res.body.Usuario.telefone).toBe('996322831');
         expect(res.body.Usuario.numero_conta).toBe(1234);
     });
-});
 
-describe('GET /v1/usuarios/id', function() {
     it('Buscar usuário com id inexistente', async function() {
         const res = await request(app)
             .get('/v1/usuarios/0')
@@ -116,9 +110,7 @@ describe('GET /v1/usuarios/id', function() {
         expect(res.body.statusCode).toBe(404);
         expect(res.body.statusMessage).toBe('Not Found');
     });
-});
 
-describe('GET /v1/usuarios/id', function() {
     it('Tentativa de buscar informações de outro usuário', async function() {
         const res = await request(app)
             .get('/v1/usuarios/1000')
@@ -157,9 +149,7 @@ describe('POST /v1/usuarios', function () {
       expect(res.body.Usuario.bairro).toBe('Santo Antônio');
       expect(res.body.Usuario.cidade).toBe('Teresina');
    });
-});
 
-describe('POST /v1/usuarios', function () {
     it('Adicionar novo usuário com dados inválidos', async function() {
         const res = await request(app)
             .post('/v1/usuarios')
@@ -186,6 +176,28 @@ describe('POST /v1/usuarios', function () {
         expect(res.body.errors[6].msg).toBe('Campo cidade não pode ser vázio.');
 
     });
+
+    it('Adicionar novo usuário já cadastrado', async function() {
+        const res = await request(app)
+            .post('/v1/usuarios')
+            .send({
+                cpf_cnpj: "127.027.040-00",
+                senha: "bob123",
+                nome_completo: "Bob Green",
+                numero_conta: 1000,
+                telefone: "996322831",
+                rua: "Quadra A",
+                bairro: "Bairro A",
+                cidade: "Cidade A"
+            })
+            .expect('Content-Type', /json/)
+            .expect(409);
+
+        expect(res.body.statusCode).toBe(409);
+        expect(res.body.statusMessage).toBe('Conflict');
+        expect(res.body.errorMessage).toBe('Usuário com cpf_cnpj |127.027.040-00| já cadastrado.')
+
+    });
 });
 
 describe('PATCH /v1/usuarios/id', function () {
@@ -210,9 +222,7 @@ describe('PATCH /v1/usuarios/id', function () {
         expect(res.body.Usuario.bairro).toBe('Centro');
         expect(res.body.Usuario.cidade).toBe('Passo Fundo');
     });
-});
 
-describe('PATCH /v1/usuarios/id', function() {
     it('Atualizar usuário inexistente', async function() {
         const res = await request(app)
             .patch('/v1/usuarios/0')
@@ -232,9 +242,7 @@ describe('PATCH /v1/usuarios/id', function() {
         expect(res.body.statusCode).toBe(404);
         expect(res.body.statusMessage).toBe('Not Found');
     });
-});
 
-describe('PATCH /v1/usuarios/id', function() {
     it('Tentativa de atualizar outro usuário', async function() {
         const res = await request(app)
             .patch('/v1/usuarios/1000')
@@ -263,9 +271,7 @@ describe('GET /v1/usuarios/id/chaves', function () {
           .expect('Content-Type', /json/)
           .expect(200);
    });
-});
 
-describe('GET /v1/usuarios/id/chaves', function () {
     it('Buscar chaves do usuário com id inexistente', async function () {
         const res = await request(app)
             .get('/v1/usuarios/0/chaves')
@@ -277,9 +283,7 @@ describe('GET /v1/usuarios/id/chaves', function () {
         expect(res.body.statusMessage).toBe('Not Found');
         expect(res.body.errorMessage).toBe('Usuário |0| não encontrado.');
     });
-});
 
-describe('GET /v1/usuarios/id/chaves', function () {
     it('Tentativa de buscar chaves de outro usuário', async function () {
         const res = await request(app)
             .get('/v1/usuarios/1000/chaves')
@@ -300,9 +304,7 @@ describe('DELETE /v1/usuarios/id', function () {
             .set('Authorization', 'Bearer ' + token)
             .expect(204)
     });
-});
 
-describe('DELETE /v1/usuarios/id', function() {
     it('Deletar usuário inexistente', async function() {
         const res = await request(app)
             .delete('/v1/usuarios/0')
@@ -315,9 +317,7 @@ describe('DELETE /v1/usuarios/id', function() {
         expect(res.body.statusCode).toBe(404);
         expect(res.body.statusMessage).toBe('Not Found');
     });
-});
 
-describe('DELETE /v1/usuarios/id', function() {
     it('Tentativa de deletar outro usuário', async function() {
         const res = await request(app)
             .delete('/v1/usuarios/1000')

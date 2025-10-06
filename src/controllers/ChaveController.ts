@@ -1,10 +1,12 @@
 import {NextFunction, Request, Response} from "express";
 import { ChaveService } from "../services/ChaveService";
-import {ChaveCreatoDto} from "../dtos/ChaveCreatoDto";
+import {UsuarioService} from "../services/UsuarioService";
 
 export class ChaveController {
     static async create(req: Request, res: Response, next: NextFunction) {
         try {
+            const usuario = await UsuarioService.buscarUsuarioId(req.params['usuarioID'] as unknown as number);
+
             const token = res.locals.token;
             const tokenID: number  = token.id;
             const userID: number = parseInt(req.params['usuarioID']);
@@ -16,10 +18,9 @@ export class ChaveController {
                 throw error;
             }
 
-            const usuarioID = req.params['usuarioID'];
-            const body: ChaveCreatoDto = req.body;
+            const body = req.body;
 
-            const chaveCriada = await ChaveService.criarChave(parseInt(usuarioID), body.tipo, body.chave);
+            const chaveCriada = await ChaveService.criarChave(usuario, body.tipo, body.chave);
             res.statusCode=201;
             res.statusMessage='Created';
             res.type('application/json')

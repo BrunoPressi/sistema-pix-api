@@ -2,14 +2,14 @@ import {AppDataSource} from "../database/AppDataSource";
 import {Chave} from "../entities/Chave";
 import {TipoChave} from "../entities/enums/TipoChave";
 import {UsuarioService} from "./UsuarioService";
+import {Usuario} from "../entities/Usuario";
 
 const ChaveRepository = AppDataSource.getRepository(Chave);
 
 export class ChaveService {
-    static async criarChave(usuarioID: number, chaveTipo: TipoChave, chaveReq: string) {
-        const usuario = await UsuarioService.buscarUsuarioId(usuarioID);
+    static async criarChave(usuario: Usuario, chaveTipo: TipoChave, chaveReq: string) {
         try {
-            const chave: Chave = {
+            const chave = {
                 chave: chaveReq,
                 tipo: chaveTipo,
                 usuario: usuario

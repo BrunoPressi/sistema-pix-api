@@ -6,7 +6,7 @@ import {Usuario} from "./Usuario";
 export class Chave{
 
     @PrimaryGeneratedColumn()
-    id?: number;
+    id!: number;
 
     @Column({
         type: 'varchar',
