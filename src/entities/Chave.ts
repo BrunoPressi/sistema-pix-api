@@ -26,6 +26,10 @@ export class Chave{
     @ManyToOne(() => Usuario, (usuario) => usuario.chaves, {onDelete: "CASCADE"})
     usuario!: Usuario;
 
-    @OneToMany(() => Transacao, (transacao: Transacao) => transacao.chaveOrigem)
-    transacoes!: Transacao[];
+    @OneToMany(() => Transacao, (transacao) => transacao.chaveOrigem)
+    transacoesOrigem!: Transacao[];
+
+    @OneToMany(() => Transacao, (transacao) => transacao.chaveDestino)
+    transacoesDestino!: Transacao[];
+
 }

@@ -86,6 +86,7 @@ export class ChaveController {
             res.json()
         }
         catch (err: any) {
+            console.log(err)
             next(err);
         }
     }

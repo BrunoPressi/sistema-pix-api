@@ -52,7 +52,7 @@ export class ChaveService {
 
     static async deletarChave(id: number) {
         const chave = await this.listarChavePorId(id);
-        await ChaveRepository.delete(chave);
+        await ChaveRepository.delete(chave.id);
     }
 
     static async verificarChaveExiste(chaveValor: string) {

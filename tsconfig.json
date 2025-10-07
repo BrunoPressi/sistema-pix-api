@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "lib": ["ES2023"],
-    "module": "nodenext",
+    "module": "commonjs",
     "target": "ES2023",
-    "moduleResolution": "Node",
-    "rootDir": "src",
-    "outDir": "dist",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

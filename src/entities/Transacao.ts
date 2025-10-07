@@ -25,10 +25,10 @@ export class Transacao {
     })
     mensagem?: string;
 
-    @ManyToOne(() => Chave, (chave: Chave) => chave.transacoes)
+    @ManyToOne(() => Chave, (chave: Chave) => chave.transacoesOrigem, {onDelete: "SET NULL", nullable: true})
     chaveOrigem!: Chave;
 
-    @ManyToOne(() => Chave, (chave: Chave) => chave.transacoes)
+    @ManyToOne(() => Chave, (chave: Chave) => chave.transacoesDestino, {onDelete: "SET NULL", nullable: true})
     chaveDestino!: Chave;
 
     constructor() {}
