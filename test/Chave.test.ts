@@ -4,6 +4,7 @@ import { Usuario } from "../src/entities/Usuario";
 import {Chave} from "../src/entities/Chave";
 import request from "supertest";
 import {TipoChave} from "../src/entities/enums/TipoChave";
+import {Transacao} from "../src/entities/Transacao";
 
 let token: string;
 
@@ -52,6 +53,7 @@ beforeAll(async () => {
 afterAll(async () => {
     await AppDataSource.getRepository(Usuario).deleteAll();
     await AppDataSource.getRepository(Chave).deleteAll();
+    await AppDataSource.getRepository(Transacao).deleteAll();
     await AppDataSource.destroy();
 });
 

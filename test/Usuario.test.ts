@@ -2,6 +2,9 @@ import { AppDataSource } from '../src/database/AppDataSource';
 import { app } from '../src/app';
 import request from 'supertest';
 import { Usuario } from "../src/entities/Usuario";
+import {Transacao} from "../src/entities/Transacao";
+import { Chave } from "../src/entities/Chave";
+import {TipoChave} from "../src/entities/enums/TipoChave";
 
 let token: string;
 let tokenExpirado: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMiwibm9tZUNvbXBsZXRvIjoiSm9obiBEb2UiLCJudW1lcm9Db250YSI6NDUyNSwiaWF0IjoxNzU5NDI5MDI4LCJleHAiOjE3NTk0MjkzMjh9.2PTJ7LmA5GDqynuRvbMyL_-Ef1U-MwdR0Xwgo02N02E';
@@ -37,6 +40,30 @@ beforeAll(async () => {
             cidade: "cidade_teste"
         })
 
+    await AppDataSource
+        .createQueryBuilder()
+        .insert()
+        .into(Chave)
+        .values({
+            id: 6000,
+            tipo: 'telefone' as TipoChave.TELEFONE,
+            chave: '999726854',
+            usuario: { id: 1000 }
+        })
+        .execute();
+
+    await AppDataSource
+        .createQueryBuilder()
+        .insert()
+        .into(Chave)
+        .values({
+            id: 5000,
+            tipo: 'email' as TipoChave.EMAIL,
+            chave: 'email@email.com',
+            usuario: { id: 999 }
+        })
+        .execute();
+
     const res = await request(app)
         .post('/v1/auth')
         .send({
@@ -48,6 +75,8 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await AppDataSource.getRepository(Usuario).deleteAll();
+    await AppDataSource.getRepository(Chave).deleteAll();
+    await AppDataSource.getRepository(Transacao).deleteAll();
     await AppDataSource.destroy();
 });
 
@@ -294,6 +323,59 @@ describe('GET /v1/usuarios/id/chaves', function () {
         expect(res.body.statusCode).toBe(401);
         expect(res.body.statusMessage).toBe('Unauthorized');
         expect(res.body.errorMessage).toBe('Voce não tem permissão para acessar esse recurso.');
+    });
+});
+
+describe('GET /v1/usuarios/id/transacoes', function () {
+   it('Buscar transações do usuário', async function() {
+
+       await AppDataSource
+           .createQueryBuilder()
+           .insert()
+           .into(Transacao)
+           .values({
+               id: 9000,
+               chaveOrigem: {id: 5000},
+               chaveDestino: {id: 6000},
+               valor: 70.00,
+               data: new Date(),
+               mensagem: 'Nova transação'
+           })
+           .execute();
+
+      const res = await request(app)
+          .get('/v1/usuarios/999/transacoes')
+          .set('Authorization', 'Bearer ' + token)
+          .expect(200)
+          .expect('Content-Type', /json/);
+
+      expect(res.body).not.toBeNull();
+   });
+
+    it('Tentativa de buscar transações de outro usuário', async function() {
+
+        const res = await request(app)
+            .get('/v1/usuarios/1000/transacoes')
+            .set('Authorization', 'Bearer ' + token)
+            .expect(401)
+            .expect('Content-Type', /json/);
+
+        expect(res.body.statusCode).toBe(401);
+        expect(res.body.statusMessage).toBe('Unauthorized');
+        expect(res.body.errorMessage).toBe('Voce não tem permissão para visualizar esse recurso.')
+    });
+
+    it('Buscar transações de usuário inexistente', async function() {
+
+        const res = await request(app)
+            .get('/v1/usuarios/0/transacoes')
+            .set('Authorization', 'Bearer ' + token)
+            .expect(404)
+            .expect('Content-Type', /json/);
+
+        expect(res.body.statusCode).toBe(404);
+        expect(res.body.statusMessage).toBe('Not Found');
+        expect(res.body.errorMessage).toBe('Usuário |0| não encontrado.')
     });
 });
 

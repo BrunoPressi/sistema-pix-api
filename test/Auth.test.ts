@@ -2,6 +2,8 @@ import {AppDataSource} from "../src/database/AppDataSource";
 import request from "supertest";
 import {app} from "../src/app";
 import {Usuario} from "../src/entities/Usuario";
+import {Chave} from "../src/entities/Chave";
+import {Transacao} from "../src/entities/Transacao";
 
 beforeAll(async () => {
    await AppDataSource.initialize();
@@ -23,6 +25,8 @@ beforeAll(async () => {
 
 afterAll( async () => {
     await AppDataSource.getRepository(Usuario).deleteAll();
+    await AppDataSource.getRepository(Chave).deleteAll();
+    await AppDataSource.getRepository(Transacao).deleteAll();
     await AppDataSource.destroy();
 });
 
