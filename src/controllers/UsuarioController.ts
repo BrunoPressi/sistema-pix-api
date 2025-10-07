@@ -1,5 +1,6 @@
 import {UsuarioService} from "../services/UsuarioService";
 import {NextFunction, Request, Response} from "express";
+import {TransacaoService} from "../services/TransacaoService";
 
 export class UsuarioController {
     static async findAll(req: Request, res: Response, next: NextFunction) {
@@ -134,6 +135,33 @@ export class UsuarioController {
             res.json({
                 Chaves: chaves?.chaves
             })
+        }
+        catch (err: any) {
+            next(err);
+        }
+    }
+
+    static async findTransacoes(req: Request, res: Response, next: NextFunction) {
+        try {
+            const token = res.locals.token;
+            const userID = req.params['id'] as unknown as number;
+
+            const usuario = await UsuarioService.buscarUsuarioId(userID);
+
+            if (token.id != userID) {
+                const error: any = new Error('Voce não tem permissão para visualizar esse recurso.')
+                error.statusCode=401;
+                error.statusMessage='Unauthorized';
+                throw  error;
+            }
+
+            const transacoes = await TransacaoService.findTransacoesByUser(usuario.id);
+            res.statusCode=200;
+            res.statusMessage='Success';
+            res.type('application/json');
+            res.json({
+               Transacoes: transacoes
+            });
         }
         catch (err: any) {
             next(err);

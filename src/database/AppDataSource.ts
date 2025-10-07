@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import {DataSource} from "typeorm";
 import {Usuario} from "../entities/Usuario";
 import {Chave} from "../entities/Chave";
+import {Transacao} from "../entities/Transacao";
 
 if (process.env.NODE_ENV === 'test') {
     dotenv.config({ path: '.env.test', override: true });
@@ -16,6 +17,6 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: 3306,
-    entities: [Usuario, Chave],
+    entities: [Usuario, Chave, Transacao],
     synchronize: true
 });

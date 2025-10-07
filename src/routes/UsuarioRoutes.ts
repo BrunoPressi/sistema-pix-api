@@ -11,6 +11,7 @@ UsuarioRoutes.get("/:id", verifyJwt, UsuarioController.findById);
 UsuarioRoutes.patch("/:id", verifyJwt, validatorRulesAtualizarUsuario, checkValidationResult, UsuarioController.patch);
 UsuarioRoutes.delete("/:id", verifyJwt, UsuarioController.delete)
 UsuarioRoutes.get("/:id/chaves", verifyJwt, UsuarioController.findChaves)
+UsuarioRoutes.get('/:id/transacoes', verifyJwt, UsuarioController.findTransacoes);
 
 
 export default UsuarioRoutes;

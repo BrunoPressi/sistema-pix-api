@@ -1,6 +1,7 @@
-import {Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 import {TipoChave} from "./enums/TipoChave";
 import {Usuario} from "./Usuario";
+import {Transacao} from "./Transacao";
 
 @Entity()
 export class Chave{
@@ -24,4 +25,7 @@ export class Chave{
 
     @ManyToOne(() => Usuario, (usuario) => usuario.chaves, {onDelete: "CASCADE"})
     usuario!: Usuario;
+
+    @OneToMany(() => Transacao, (transacao: Transacao) => transacao.chaveOrigem)
+    transacoes!: Transacao[];
 }

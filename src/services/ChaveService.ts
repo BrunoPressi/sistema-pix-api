@@ -1,7 +1,6 @@
 import {AppDataSource} from "../database/AppDataSource";
 import {Chave} from "../entities/Chave";
 import {TipoChave} from "../entities/enums/TipoChave";
-import {UsuarioService} from "./UsuarioService";
 import {Usuario} from "../entities/Usuario";
 
 const ChaveRepository = AppDataSource.getRepository(Chave);
@@ -54,5 +53,23 @@ export class ChaveService {
     static async deletarChave(id: number) {
         const chave = await this.listarChavePorId(id);
         await ChaveRepository.delete(chave);
+    }
+
+    static async verificarChaveExiste(chaveValor: string) {
+        const chave = chaveValor;
+
+        const chaveObj = await ChaveRepository.findOne({
+            where: {chave},
+            relations: ['usuario']
+        })
+
+        if (chaveObj != null) {
+            return chaveObj;
+        } else {
+            const error: any = new Error(`Chave |${chaveValor}| não encontrada.`);
+            error.statusCode=404;
+            error.statusMessage='Not Found';
+            throw error;
+        }
     }
 }

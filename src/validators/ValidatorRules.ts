@@ -57,3 +57,32 @@ export const validatorRulesNovaChave = [
         .withMessage("Campo chave não pode estar vázio;")
 
 ];
+
+export const validatorRulesNovaTransacao = [
+    check('valor')
+        .isNumeric()
+        .custom((value) => {
+           if(parseInt(value) <= 0) {
+                throw new Error('O valor da transação deve ser maior que zero.')
+           }
+           return true;
+        })
+        .notEmpty()
+        .withMessage('O valor da transação não pode estar vázio'),
+
+    check('chaveOrigem')
+        .notEmpty()
+        .withMessage('Chave de origem não pode ser vazia.'),
+
+    check('chaveDestino')
+        .notEmpty()
+        .withMessage('Chave de destino não pode ser vazia.')
+        .custom((value, { req }) => {
+            const chaveOrigem = req.body.chaveOrigem;
+
+            if (value == chaveOrigem) {
+                throw new Error('A chave de destino não pode ser igual a chave de origem.')
+            }
+            return true;
+        })
+]

@@ -4,6 +4,11 @@ import {Chave} from "./Chave";
 @Entity()
 export class Usuario {
 
+    toJSON() {
+        const {senha, ...only} = this;
+        return only;
+    }
+
     @PrimaryGeneratedColumn()
     id!: number;
 
