@@ -11,8 +11,8 @@ API REST com operações básicas de autenticação, cadastro de usuários, cria
 - [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [📁 Estrutura do Projeto](#-estrutura-do-projeto)
 - [🔐 Autenticação com JWT](#-autenticação-com-jwt)
-- [📦 Endpoints Principais](#-endpoints-principais)
-- [💻 Tutorial para rodar o projeto](#-tutorial-rodar-projeto) 
+- [📦 Endpoints Principais](#-endpoints-da-aplicação)
+- [💻 Tutorial para rodar o projeto](#-tutorial-para-rodar-o-projeto) 
 ---
 
 ## 📌 Descrição
@@ -74,8 +74,8 @@ A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
 
 ## 📦 Endpoints da Aplicação
       
-| Método |           Endpoint                    |          Descrição               |       Protegido          |
-| ------ | ------------------------------------- | -------------------------------- | ------------------------ | 
+| Método |           Endpoint                    |          Descrição               | Protegido |
+| ------ | ------------------------------------- | -------------------------------- | --------- | 
 | POST   | /v1/usuarios                          | Criação de novo usuário          | ❌ |
 | DELETE | /v1/usuarios/{usuarioID}              | Deletar um usuário               | ✅ |
 | PATCH  | /v1/usuarios/{usuarioID}              | Atualizar um usuário             | ✅ |
@@ -100,7 +100,7 @@ A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
 - Passo 1: Instalar o [NodeJS](https://nodejs.org/pt) ou `sudo apt install -y nodejs` no Linux.
 - Passo 2: Clonar o projeto em sua máquina
 - Passo 3: Abrir o terminal e executar `npm install`
-- Passo 4: Criar um arquivo `.env e um arquivo `.env.test` na raiz do projeto com as seguintes variáveis de ambiente: 
+- Passo 4: Criar um arquivo `.env` e um arquivo `.env.test` na raiz do projeto com as seguintes variáveis de ambiente: 
     - DB_NAME=
     - DB_USER=
     - DB_PASSWORD=
