@@ -97,10 +97,10 @@ A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
 
 ## 💻 Tutorial para rodar o projeto
  
-- Passo 1: Instalar o [https://nodejs.org/en/](NodeJS) ou sudo apt install -y nodejs no Linux.
+- Passo 1: Instalar o [NodeJS](https://nodejs.org/pt) ou `sudo apt install -y nodejs` no Linux.
 - Passo 2: Clonar o projeto em sua máquina
-- Passo 3: Abrir o terminal e executar npm install
-- Passo 4: Criar um arquivo .env e um arquivo .env.test na raiz do projeto com as seguintes variáveis de ambiente: 
+- Passo 3: Abrir o terminal e executar `npm install`
+- Passo 4: Criar um arquivo `.env e um arquivo `.env.test` na raiz do projeto com as seguintes variáveis de ambiente: 
     - DB_NAME=
     - DB_USER=
     - DB_PASSWORD=
@@ -110,6 +110,6 @@ A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
     - JWT_SECRET=
     - JWT_EXPIRES=
 - OBS: Atribuir valores de acordo com seu banco de dados de desenvolvimento e de testes e sua configuração JWT
-- Passo 5: npm run dev -> para executar o projeto
-- Passo 6: npm run test -> para executar os testes
+- Passo 5: `npm run dev` -> para executar o projeto
+- Passo 6: `npm run test` -> para executar os testes
     
