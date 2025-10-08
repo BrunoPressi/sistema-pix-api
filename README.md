@@ -66,10 +66,9 @@ src/
 
 A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
 
-1.Registre um novo usuário via POST v1/usuarios.
-2.Realize login via POST v1/auth e receba o token.
-3.Use o token no cabeçalho das requisições:
-  Authorization: Bearer <token>
+- Registre um novo usuário via POST v1/usuarios.
+- Realize login via POST v1/auth e receba o token.
+- Use o token no cabeçalho das requisições: Authorization: Bearer <token>
 
 ---
 
@@ -97,26 +96,20 @@ A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
 ---
 
 ## 💻 Tutorial para rodar o projeto
-
--- Passo 1: Instalar o [https://nodejs.org/en/](NodeJS) ou sudo apt install -y nodejs no Linux.
--- Passo 2: Clonar o projeto em sua máquina
--- Passo 3: Abrir o terminal e executar npm install
--- Passo 4: Criar um arquivo .env e um arquivo .env.test na raiz do projeto com as seguintes variáveis de ambiente: 
-    DB_NAME=
-    DB_USER=
-    DB_PASSWORD=
-    DB_HOST=
-    DB_PORT=
-    JWT_SECRET=
-    JWT_EXPIRES=
-OBS: Atribuir valores de acordo com seu banco de dados de desenvolvimento e de testes e sua configuração JWT
--- Passo 5: npm run dev -> para executar o projeto
--- Passo 6: npm run test -> para executar os testes
+ 
+- Passo 1: Instalar o [https://nodejs.org/en/](NodeJS) ou sudo apt install -y nodejs no Linux.
+- Passo 2: Clonar o projeto em sua máquina
+- Passo 3: Abrir o terminal e executar npm install
+- Passo 4: Criar um arquivo .env e um arquivo .env.test na raiz do projeto com as seguintes variáveis de ambiente: 
+    - DB_NAME=
+    - DB_USER=
+    - DB_PASSWORD=
+    - DB_HOST=
+    - DB_PORT=
+      
+    - JWT_SECRET=
+    - JWT_EXPIRES=
+- OBS: Atribuir valores de acordo com seu banco de dados de desenvolvimento e de testes e sua configuração JWT
+- Passo 5: npm run dev -> para executar o projeto
+- Passo 6: npm run test -> para executar os testes
     
-
-
-
-
-## 🛠️ Testes e Banco de Dados
-
-A aplicação usa o banco de dados H2 em memória para testes locais.
