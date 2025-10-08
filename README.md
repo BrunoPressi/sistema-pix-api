@@ -11,7 +11,7 @@ API REST com operações básicas de autenticação, cadastro de usuários, cria
 - [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [📁 Estrutura do Projeto](#-estrutura-do-projeto)
 - [🔐 Autenticação com JWT](#-autenticação-com-jwt)
-- [📦 Endpoints Principais](#-endpoints-da-aplicação)
+- [📦 Endpoints da Aplicação](#-endpoints-da-aplicação)
 - [💻 Tutorial para rodar o projeto](#-tutorial-para-rodar-o-projeto) 
 ---
 
@@ -112,4 +112,6 @@ A API é protegida com autenticação JWT. Para acessar os endpoints protegidos:
 - OBS: Atribuir valores de acordo com seu banco de dados de desenvolvimento e de testes e sua configuração JWT
 - Passo 5: `npm run dev` -> para executar o projeto
 - Passo 6: `npm run test` -> para executar os testes
-    
+
+
+# Desenvolvido por: Bruno Pressi
