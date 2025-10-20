@@ -19,7 +19,6 @@ beforeAll(async () => {
             cpf_cnpj: "127.027.040-00",
             senha: 'Bob123',
             nome_completo: "Bob Green",
-            numero_conta: 4525,
             telefone: "997268541",
             rua: "rua_teste b",
             bairro: "bairro_teste c",
@@ -33,7 +32,6 @@ beforeAll(async () => {
             cpf_cnpj: "047.930.260-01",
             senha: 'teste123',
             nome_completo: "nome_teste",
-            numero_conta: 1234,
             telefone: "996322831",
             rua: "rua_teste",
             bairro: "bairro_teste",
@@ -124,7 +122,6 @@ describe('GET /v1/usuarios/id', function() {
         expect(res.body.Usuario.nome_completo).toBe('nome_teste');
         expect(res.body.Usuario.cpf_cnpj).toBe('047.930.260-01');
         expect(res.body.Usuario.telefone).toBe('996322831');
-        expect(res.body.Usuario.numero_conta).toBe(1234);
     });
 
     it('Buscar usuário com id inexistente', async function() {
@@ -161,7 +158,6 @@ describe('POST /v1/usuarios', function () {
               cpf_cnpj: "603.866.600-18",
               senha: "John123",
               nome_completo: "John Doe",
-              numero_conta: 9999,
               telefone: "999726854",
               rua: "Quadra 58",
               bairro: "Santo Antônio",
@@ -173,7 +169,6 @@ describe('POST /v1/usuarios', function () {
       expect(res.body.Usuario.nome_completo).toBe('John Doe');
       expect(res.body.Usuario.cpf_cnpj).toBe('603.866.600-18');
       expect(res.body.Usuario.telefone).toBe('999726854');
-       expect(res.body.Usuario.numero_conta).toBe(9999);
       expect(res.body.Usuario.rua).toBe('Quadra 58');
       expect(res.body.Usuario.bairro).toBe('Santo Antônio');
       expect(res.body.Usuario.cidade).toBe('Teresina');
@@ -246,7 +241,6 @@ describe('PATCH /v1/usuarios/id', function () {
         expect(res.body.Usuario.nome_completo).toBe('nome_teste');
         expect(res.body.Usuario.cpf_cnpj).toBe('047.930.260-01');
         expect(res.body.Usuario.telefone).toBe('996322831');
-        expect(res.body.Usuario.numero_conta).toBe(1234);
         expect(res.body.Usuario.rua).toBe('Avenida X');
         expect(res.body.Usuario.bairro).toBe('Centro');
         expect(res.body.Usuario.cidade).toBe('Passo Fundo');

@@ -1,6 +1,7 @@
 import {AppDataSource} from "../database/AppDataSource";
 import {Usuario} from "../entities/Usuario";
 import bcrypt from 'bcrypt';
+import generateAccountNumber from "../utils/NumeroContaGenerator";
 
 const UsuarioRepository = AppDataSource.getRepository(Usuario);
 
@@ -13,6 +14,7 @@ export class UsuarioService {
         try {
             const senhaHash = await bcrypt.hash(usuario.senha, 10);
             usuario.senha = senhaHash;
+            usuario.numero_conta = generateAccountNumber(usuario.cpf_cnpj);
             return await UsuarioRepository.save(usuario);
         }
         catch (err: any) {

@@ -18,7 +18,6 @@ beforeAll(async () => {
             cpf_cnpj: "127.027.040-00",
             senha: 'Bob123',
             nome_completo: "Bob Green",
-            numero_conta: 4525,
             telefone: "997268541",
             rua: "rua_teste b",
             bairro: "bairro_teste c",
@@ -32,7 +31,6 @@ beforeAll(async () => {
             cpf_cnpj: "047.930.260-01",
             senha: 'johndoe',
             nome_completo: "John Doe",
-            numero_conta: 1234,
             telefone: "996322831",
             rua: "rua_teste e",
             bairro: "bairro_teste f",
@@ -72,7 +70,6 @@ describe('POST /v1/chaves/usuarioID', function () {
        expect(res.body.Chave.chave).toBe('teste@email.com');
        expect(res.body.Chave.tipo).toBe('email');
        expect(res.body.Chave.usuario.cpf_cnpj).toBe('127.027.040-00');
-       expect(res.body.Chave.usuario.numero_conta).toBe(4525)
    });
 
     it('Criar chave tipo telefone', async function () {
@@ -89,7 +86,6 @@ describe('POST /v1/chaves/usuarioID', function () {
         expect(res.body.Chave.chave).toBe('996322831');
         expect(res.body.Chave.tipo).toBe('telefone');
         expect(res.body.Chave.usuario.cpf_cnpj).toBe('127.027.040-00');
-        expect(res.body.Chave.usuario.numero_conta).toBe(4525)
     });
 
     it('Criar chave tipo cpf', async function () {
@@ -106,7 +102,6 @@ describe('POST /v1/chaves/usuarioID', function () {
         expect(res.body.Chave.chave).toBe('127.027.040-00');
         expect(res.body.Chave.tipo).toBe('cpf');
         expect(res.body.Chave.usuario.cpf_cnpj).toBe('127.027.040-00');
-        expect(res.body.Chave.usuario.numero_conta).toBe(4525)
     });
 
     it('Criar chave que já existe', async function () {

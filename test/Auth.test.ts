@@ -15,7 +15,6 @@ beforeAll(async () => {
            cpf_cnpj: '047.930.260-01',
            senha: 'teste123',
            nome_completo: "nome_teste",
-           numero_conta: 1234,
            telefone: "996322831",
            rua: "rua_teste",
            bairro: "bairro_teste",
