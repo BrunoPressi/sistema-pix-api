@@ -2,11 +2,14 @@ import "reflect-metadata";
 import {AppDataSource} from './database/AppDataSource';
 import express from 'express';
 import routes from "./routes";
+import cors from 'cors';
+import {corsConfig} from "./config/CorsConfig";
 
 export const app = express();
 const port = 5001;
 app.use(express.json());
 app.use(routes);
+app.use(cors(corsConfig));
 
 AppDataSource.initialize()
     .then(() => {
