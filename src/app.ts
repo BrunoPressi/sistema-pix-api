@@ -7,9 +7,9 @@ import {corsConfig} from "./config/CorsConfig";
 
 export const app = express();
 const port = 5001;
+app.use(cors(corsConfig));
 app.use(express.json());
 app.use(routes);
-app.use(cors(corsConfig));
 
 AppDataSource.initialize()
     .then(() => {
