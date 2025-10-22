@@ -15,7 +15,7 @@ export class Usuario {
     @Column({
         nullable: false,
         unique: true,
-        length: 14,
+        length: 18,
         type: "varchar"
     })
     cpf_cnpj!: string;
@@ -42,7 +42,7 @@ export class Usuario {
 
     @Column({
         nullable: false,
-        length: 9,
+        length: 12,
         type: "varchar"
     })
     telefone!: string;

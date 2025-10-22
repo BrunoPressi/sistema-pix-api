@@ -180,24 +180,23 @@ describe('POST /v1/usuarios', function () {
             .send({
                 id: 99,
                 cpf_cnpj: "123456",
-                senha: "",
-                nome_completo: "",
-                numero_conta: 4525,
+                senha: "a",
+                nome_completo: "a",
                 telefone: "1234",
-                rua: "",
-                bairro: "",
-                cidade: ""
+                rua: "a",
+                bairro: "b",
+                cidade: "c"
             })
             .expect('Content-Type', /json/)
             .expect(400);
 
-        expect(res.body.errors[0].msg).toBe('Insira um CPF ou CNPJ válido');
+        expect(res.body.errors[0].msg).toBe('Insira um CPF/CNPJ válido');
         expect(res.body.errors[1].msg).toBe('Sua senha deve ter mais de 5 caracteres.');
         expect(res.body.errors[2].msg).toBe('Seu nome deve ter mais de 3 caracteres.');
-        expect(res.body.errors[3].msg).toBe('Insira um telefone válido (somente números - 9 caracteres).');
-        expect(res.body.errors[4].msg).toBe('Campo rua não pode ser vázio.');
-        expect(res.body.errors[5].msg).toBe('Campo bairro não pode ser vázio.');
-        expect(res.body.errors[6].msg).toBe('Campo cidade não pode ser vázio.');
+        expect(res.body.errors[3].msg).toBe('Insira um telefone válido.');
+        expect(res.body.errors[4].msg).toBe('Campo rua deve ter mais de 5 caracteres.');
+        expect(res.body.errors[5].msg).toBe('Campo bairro deve ter mais de 5 caracteres.');
+        expect(res.body.errors[6].msg).toBe('Campo cidade deve ter mais de 5 caracteres.');
 
     });
 
