@@ -2,6 +2,7 @@ import {AppDataSource} from "../database/AppDataSource";
 import {Usuario} from "../entities/Usuario";
 import bcrypt from 'bcrypt';
 import generateAccountNumber from "../utils/NumeroContaGenerator";
+import {UsuarioPatchDTO} from "../dtos/UsuarioPatchDto";
 
 const UsuarioRepository = AppDataSource.getRepository(Usuario);
 
@@ -43,14 +44,11 @@ export class UsuarioService {
         }
     }
 
-    static async atualizarUsuario(usuarioNovo: Usuario, usuarioVelho: Usuario) {
+    static async atualizarUsuario(usuarioNovo: UsuarioPatchDTO, usuarioVelho: Usuario) {
         usuarioVelho.telefone = usuarioNovo.telefone;
         usuarioVelho.rua = usuarioNovo.rua;
         usuarioVelho.bairro = usuarioNovo.bairro;
         usuarioVelho.cidade = usuarioNovo.cidade;
-
-        const senhaHash = await bcrypt.hash(usuarioNovo.senha, 10);
-        usuarioVelho.senha = senhaHash;
 
         return await UsuarioRepository.save(usuarioVelho);
     }

@@ -27,11 +27,10 @@ export const validatorRulesNovoUsuario = [
 ];
 
 export const validatorRulesAtualizarUsuario = [
-    check('senha', 'Sua senha deve ter mais de 5 caracteres.').isLength({min: 5}),
-    check('telefone', 'Insira um telefone válido (somente números - 9 caracteres).').isLength({min: 9, max: 9}),
-    check('rua', 'Campo rua não pode ser vázio.').notEmpty(),
-    check('bairro', 'Campo bairro não pode ser vázio.').notEmpty(),
-    check('cidade', 'Campo cidade não pode ser vázio.').notEmpty(),
+    check('telefone', 'Insira um telefone válido.').isLength({min: 9, max: 11}),
+    check('rua', 'Campo rua deve ter mais de 5 caracteres.').notEmpty(),
+    check('bairro', 'Campo bairro deve ter mais de 5 caracteres.').notEmpty(),
+    check('cidade', 'Campo cidade deve ter mais de 5 caracteres.').notEmpty(),
     param('id')
         .isNumeric()
         .withMessage('ID do usuário deve ser um número inteiro')

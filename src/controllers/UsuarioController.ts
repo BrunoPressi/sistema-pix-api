@@ -1,6 +1,7 @@
 import {UsuarioService} from "../services/UsuarioService";
 import {NextFunction, Request, Response} from "express";
 import {TransacaoService} from "../services/TransacaoService";
+import {UsuarioPatchDTO} from "../dtos/UsuarioPatchDto";
 
 export class UsuarioController {
     static async findAll(req: Request, res: Response, next: NextFunction) {
@@ -63,7 +64,7 @@ export class UsuarioController {
     static async patch(req: Request, res:Response, next: NextFunction) {
         try {
             const usuarioVelho = await UsuarioService.buscarUsuarioId(parseInt(req.params['id']));
-            const usuarioNovo = req.body;
+            const usuarioNovo: UsuarioPatchDTO = req.body;
 
             const token = res.locals.token;
             const tokenID: number  = token.id;
