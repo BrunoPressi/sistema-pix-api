@@ -47,16 +47,21 @@ export class TransacaoService {
         });
     }
 
-    static async findTransacoesByUser(id: number) {
+    static async findTransacoesByUser(id: number, page: number, limit: number) {
 
-        const transacoes = await TransacaoRepository.find({
+        const skip = (page - 1) * limit;
+
+        const [transacoes, total] = await TransacaoRepository.findAndCount({
             where: [
                 { chaveOrigem: { usuario: { id: id } } },
                 { chaveDestino: { usuario: { id: id } } }
             ],
-            relations: ['chaveOrigem', 'chaveOrigem.usuario', 'chaveDestino', 'chaveDestino.usuario']
+            relations: ['chaveOrigem', 'chaveOrigem.usuario', 'chaveDestino', 'chaveDestino.usuario'],
+            skip,
+            take: limit,
+            order: { id: "ASC" }
         });
 
-        return transacoes;
+        return [transacoes, total];
     }
 }

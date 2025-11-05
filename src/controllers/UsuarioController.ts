@@ -156,12 +156,19 @@ export class UsuarioController {
                 throw  error;
             }
 
-            const transacoes = await TransacaoService.findTransacoesByUser(usuario.id);
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = 5;
+            const [transacoes, total] = await TransacaoService.findTransacoesByUser(usuario.id, page, limit);
+
+            const totalPages = Math.ceil(total as unknown as number / limit);
+
             res.statusCode=200;
             res.statusMessage='Success';
             res.type('application/json');
             res.json({
-               Transacoes: transacoes
+                Transacoes: transacoes,
+                total: total,
+                totalPages: totalPages
             });
         }
         catch (err: any) {
